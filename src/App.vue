@@ -1,30 +1,37 @@
 <template>
   <div id="app">
     <Header></Header>
-    <PostList></PostList> 
+    <router-view name="main"></router-view>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 
 import Header from './components/Header'
 import PostList from './components/PostList'
+import Article from './components/Article'
 export default {
   name: 'App',
   components: {
     Header,
-    PostList
+    PostList,
+    Article
   }
 }
 </script>
 
 <style>
   *{
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;
   }
   body{
+    margin: 0;
+    padding: 0;
     background: #e1e1e1;
+    font-family: "Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB",STHeiti,sans-serif!important
   }
+  a{
+  text-decoration: none;
+  color: black;
+}
 </style>

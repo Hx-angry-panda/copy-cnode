@@ -33,7 +33,7 @@ Vue.filter('filterDate', function(value){
   }else if(lastReply/1000/60/60/24 < 24){
     return parseInt(lastReply/1000/60/60/24) + ' ' + '天前'
   }else if(lastReply/1000/60/60/24/31 < 12){
-    return parseInt(lastReply/1000/60/60/24/31) + ' ' + '月前'
+    return parseInt(lastReply/1000/60/60/24/31) + ' ' + '个月前'
   }else{
     parseInt(lastReply/1000/60/60/24/31/12) + ' ' + '年前'
   } 

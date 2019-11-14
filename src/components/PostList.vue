@@ -6,14 +6,14 @@
     <div class="postList" v-else>
       <ul>
         <li>
-            <div class="topNav">
-                <span>全部</span>
-                <span>精华</span>
-                <span>分享</span>
-                <span>问答</span>
-                <span>招聘</span>
-                <span>客户端测试</span>
-            </div>
+          <div class="topNav">
+            <span>全部</span>
+            <span>精华</span>
+            <span>分享</span>
+            <span>问答</span>
+            <span>招聘</span>
+            <span>客户端测试</span>
+          </div>
         </li>
         <li v-for="post in posts">
           <img :src="post.author.avatar_url" alt="avatar" class="avatar" />
@@ -28,7 +28,16 @@
           >
             <span>{{post | filterListType}}</span>
           </span>
-          <span class="title">{{post.title}}</span>
+          <router-link
+            :to="{
+          name: 'article',
+          params: {
+            id: post.id,
+            }
+        }"
+          >
+            <span class="title">{{post.title}}</span>
+          </router-link>
           <span class="lastReply">{{post.last_reply_at | filterDate}}</span>
         </li>
       </ul>
@@ -91,6 +100,10 @@ export default {
   font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma,
     "Hiragino Sans GB", STHeiti, sans-serif !important;
 }
+
+a:hover{
+  text-decoration: underline;
+}
 .main {
   width: 90%;
   max-width: 1400px;
@@ -103,20 +116,21 @@ export default {
   justify-content: center;
   margin-top: 30vh;
 }
-.topNav{
-    background: #f6f6f6;
-    padding: 10px;
+.topNav {
+  background: #f6f6f6;
+  padding: 10px;
 }
-.topNav > span{
-    margin: 0 10px;
-    color: #80bd01;
-    font-size: 14px;
+.topNav > span {
+  margin: 0 10px;
+  color: #80bd01;
+  font-size: 14px;
 }
-.topNav > span:hover{
-    background: #80bd01;
-    color: #fff;
-    margin: 0 10px;
-    border-radius: 3px;
+.topNav > span:hover {
+  background: #80bd01;
+  color: #fff;
+  margin: 0 10px;
+  border-radius: 3px;
+  cursor: pointer;
 }
 .avatar {
   width: 30px;
