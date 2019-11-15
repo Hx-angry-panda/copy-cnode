@@ -1,14 +1,14 @@
 <template>
   <div>
-    <Header></Header>
-    <div class="loading" v-if="isLoading">
-      <img src="../assets/loading.gif" alt="loading" />
-    </div>
-    <div class="content" v-else>
+    
+    <div class="content">
+      <!-- 帖子内部标题 -->
       <div class="topic_header">
         <span class="listType">{{posts | filterListType}}</span>
         <span class="title">{{posts.title}}</span>
       </div>
+
+      <!-- 帖子详情 -->
       <div class="topic_message">
         <span>• 发布于 {{posts.create_at | filterDate}}</span>
         <span>• 作者 {{posts.author.loginname}}</span>
@@ -16,17 +16,39 @@
         <span>• 来自 {{posts | listType}}</span>
       </div>
 
+      <!-- 帖子正文 -->
       <div class="topic_main" v-html="posts.content"></div>
+    </div>
+
+    <!-- 帖子回复 -->
+      <div class="topBar">{{posts.reply_count}} 回复</div>
+      <div v-for="(reply,index) in posts.replies" class="reply">
+        <section>
+          <router-link
+            :to="{
+              name: 'user_info',
+              params: {
+                name: reply.author.loginname
+              }
+            }"
+          >
+            <img :src="reply.author.avatar_url" alt />
+          </router-link>
+          <span class="loginName">{{reply.author.loginname}}</span>
+          <span class="floor">{{index+1}}楼</span>
+          <span class="createTime">{{reply.create_at | filterDate}}</span>
+          <span v-if="reply.ups.length >=1" class="agree">{{reply.ups.length}} ☝</span>
+        </section>
+        <p v-html="reply.content"></p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Header from "./Header";
 export default {
   data: function() {
     return {
-      isLoading: false,
       posts: []
     };
   },
@@ -35,7 +57,6 @@ export default {
       this.$http
         .get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
         .then(res => {
-          this.isLoading = false;
           this.posts = res.data.data;
         })
         .catch(err => {
@@ -44,7 +65,6 @@ export default {
     }
   },
   beforeMount: function() {
-    this.isLoading = true;
     this.getData();
   },
   filters: {
@@ -75,26 +95,27 @@ export default {
 </script>
 
 <style>
-@import url('../assets/markdown-github.css');
-.loading {
-  display: flex;
-  justify-content: center;
-  margin-top: 30vh;
-}
+/* 引入外部的css不能在 style scoped 中 */
+@import url("../assets/markdown-github.css");
+
 .content {
-  max-width: 1062px;
+  max-width: 65%;
   margin: 15px 305px 15px 76px;
   background: #fff;
 }
 .topic_main {
   border-top: 1px solid #e5e5e5;
   padding: 0 10px;
+  margin-bottom: 13px;
+}
+.topic_main a {
+  text-decoration: underline;
 }
 .markdown-text img {
   width: 92% !important;
 }
 .topic_header {
-  max-width: 1042px;
+  max-width: 65%;
   padding: 10px;
   margin: 8px 0;
   display: flex;
@@ -106,7 +127,7 @@ export default {
   padding: 2px 4px;
   border-radius: 3px;
   background: #80bd01;
-  align-self:initial;
+  align-self: initial;
   margin-top: 8px;
   font-weight: bold;
 }
@@ -116,10 +137,61 @@ export default {
   font-weight: 700;
   margin: 8px 0px 8px 6px;
 }
-.topic_message{
-    font-size: 12px;
-    color: #838383;
-    height: 20px;
-    margin: -12px 0 8px 10px;
+.topic_message {
+  font-size: 12px;
+  color: #838383;
+  height: 20px;
+  margin: -12px 0 8px 10px;
+}
+.topBar {
+  background: #f6f6f6;
+  color: #444;
+  font-size: 14px;
+  max-width: 65%;
+  margin: 15px 0 0 76px;
+  padding: 10px;
+}
+.reply {
+  max-width: 65%;
+  margin-left: 76px;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+  padding: 10px;
+}
+.reply section {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.reply img {
+  width: 30px;
+  height: 30px;
+}
+.reply p {
+  margin: 0 0 0 10px;
+  padding-bottom: 10px;
+}
+.reply p a{
+  color: #666;
+  font-size: 13px;
+}
+.reply .loginName {
+  font-size: 12px;
+  color: #666;
+  margin-left: 10px;
+}
+.reply .floor {
+  font-size: 11px;
+  color: #0088cc;
+  margin-left: 10px;
+}
+.reply .createTime {
+  font-size: 11px;
+  color: #0088cc;
+  margin-left: 10px;
+}
+.reply .agree {
+  position: absolute;
+  right: 20px;
 }
 </style>

@@ -5,6 +5,7 @@
     </div>
     <div class="postList" v-else>
       <ul>
+        <!-- 帖子分类 -->
         <li>
           <div class="topNav">
             <span>全部</span>
@@ -15,29 +16,39 @@
             <span>客户端测试</span>
           </div>
         </li>
+
+        <!-- 帖子 -->
         <li v-for="post in posts">
+          <!-- 头像 -->
+          <!-- 动态绑定 -->
           <img :src="post.author.avatar_url" alt="avatar" class="avatar" />
-          <!--动态绑定-->
+ 
+          <!-- 回复数&点击数 -->
           <span class="replyAndVisit">
             <span class="replyCount">{{post.reply_count}}</span>
             <span class="slash">/</span>
             <span class="visitCount">{{post.visit_count}}</span>
           </span>
+
+          <!-- 帖子类型 -->
           <span
             :class="{put_top:(post.top === true),topiclist_tab:(post.top != true && post.good != true)}"
           >
             <span>{{post | filterListType}}</span>
           </span>
-          <router-link
-            :to="{
-          name: 'article',
-          params: {
-            id: post.id,
+
+          <!-- 帖子标题 -->
+          <router-link :to="{
+            name: 'article',
+            params: {
+              id: post.id,
+              name: post.author.loginname
             }
-        }"
-          >
+          }">
             <span class="title">{{post.title}}</span>
           </router-link>
+
+          <!-- 帖子最后回复时间 -->
           <span class="lastReply">{{post.last_reply_at | filterDate}}</span>
         </li>
       </ul>
@@ -100,8 +111,10 @@ export default {
   font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma,
     "Hiragino Sans GB", STHeiti, sans-serif !important;
 }
-
-a:hover{
+a{
+  color: black;
+}
+a:hover {
   text-decoration: underline;
 }
 .main {

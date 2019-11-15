@@ -8,7 +8,6 @@ import axios from 'axios'
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
@@ -16,6 +15,8 @@ new Vue({
   template: '<App/>'
 })
 
+
+//时间过滤器
 Vue.filter('filterDate', function(value){
   var time = new Date(value).getTime() //最后回复时间距离1970年1月1日00:00:00的毫秒数
   var date = new Date().getTime() //现在时间距离1970年1月1日00:00:00的毫秒数
@@ -35,7 +36,6 @@ Vue.filter('filterDate', function(value){
   }else if(lastReply/1000/60/60/24/31 < 12){
     return parseInt(lastReply/1000/60/60/24/31) + ' ' + '个月前'
   }else{
-    parseInt(lastReply/1000/60/60/24/31/12) + ' ' + '年前'
+    return parseInt(lastReply/1000/60/60/24/31/12) + ' ' + '年前'
   } 
-  
 })
