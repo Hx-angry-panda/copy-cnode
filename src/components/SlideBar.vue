@@ -1,13 +1,32 @@
 <template>
-  <div class="main">
+  <div class="loading" v-if="isLoading"></div>
+  <div class="main" v-else>
     <!-- 作者信息 -->
     <div>
       <section>
         <div class="smallTopBar">作者</div>
         <div class="message">
           <div class="person">
-            <img :src="posts.avatar_url">
-            <span>{{posts.loginname}}</span>
+            <router-link
+              :to="{
+              name: 'user_info',
+              params: {
+                name: posts.loginname
+              }
+            }"
+            >
+              <img :src="posts.avatar_url" />
+            </router-link>
+            <span>
+              <router-link
+                :to="{
+                name: 'user_info',
+                params: {
+                  name: posts.loginname
+                }
+              }"
+              >{{posts.loginname}}</router-link>
+            </span>
           </div>
           <div>积分：{{posts.score}}</div>
         </div>
@@ -18,7 +37,17 @@
         <div class="smallTopBar">作者最近话题</div>
         <div class="message">
           <ul>
-            <li v-for="topic in posts.recent_topics">{{topic.title}}</li>
+            <li v-for="topic in posts.recent_topics">
+              <!-- 此时路由没有发生变化，依旧是article，只是参数发生了变化，在vue中不会跳转 -->
+              <router-link
+                :to="{
+                name: 'article',
+                params: {
+                  id: topic.id,
+                }
+              }"
+              >{{topic.title}}</router-link>
+            </li>
           </ul>
         </div>
       </section>
@@ -28,7 +57,16 @@
         <div class="smallTopBar">作者最近回复</div>
         <div class="message">
           <ul>
-            <li v-for="reply in posts.recent_replies">{{reply.title}}</li>
+            <li v-for="reply in posts.recent_replies">
+              <router-link
+                :to="{
+                name: 'article',
+                params: {
+                  id: reply.id
+                }
+              }"
+              >{{reply.title}}</router-link>
+            </li>
           </ul>
         </div>
       </section>
@@ -40,7 +78,9 @@
 export default {
   data: function() {
     return {
-      posts: []
+      isLoading: false,
+      posts: [],
+      topics: []
     };
   },
   methods: {
@@ -48,8 +88,8 @@ export default {
       this.$http
         .get(`https://cnodejs.org/api/v1/user/${this.$route.params.name}`)
         .then(res => {
+          this.isLoading = false;
           this.posts = res.data.data;
-          console.log(this.posts.recent_topics[0].title)
         })
         .catch(err => {
           console.log(err);
@@ -57,49 +97,59 @@ export default {
     }
   },
   beforeMount: function() {
+    this.isLoading = true;
     this.getData();
-  },
+  }
 };
 </script>
 
 <style scoped>
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-li{
+li {
   list-style: none;
   font-size: 12px;
   display: flex;
   flex-wrap: wrap;
   padding: 8px 0;
 }
-.main{
+.loading {
+  width: 100%;
+  height: 100%;
+  background: #e1e1e1;
+}
+.main {
+  width: 25%;
   position: absolute;
   top: 65px;
-  right: 15px;
+  right: 2%;
 }
-.smallTopBar{
+.smallTopBar {
   background: #f6f6f6;
   color: #444;
   font-size: 14px;
   width: 95%;
   padding: 10px 5px;
 }
-img{
+img {
   width: 48px;
   height: 48px;
   margin: 5px;
 }
-.message{
+.message {
   background: #fff;
   width: 95%;
   margin-bottom: 15px;
   padding-left: 10px;
 }
-.person{
+.person {
   display: flex;
   align-items: center;
+}
+.person a {
+  color: grey;
 }
 </style>

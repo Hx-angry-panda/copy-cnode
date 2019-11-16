@@ -90,7 +90,6 @@ li {
 .userInformation {
   width: 65%;
   max-width: 1400px;
-  min-width: 960px;
   margin: 15px auto;
 }
 .userInformation img {
@@ -110,6 +109,7 @@ li {
   font-size: 12px;
   padding: 10px;
   margin-top: 20px;
+  max-width: 1400px;
 }
 .userInformation ul {
   background: #fff;

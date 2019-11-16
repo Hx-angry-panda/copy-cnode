@@ -67,6 +67,13 @@ export default {
   beforeMount: function() {
     this.getData();
   },
+  
+  //检测路由发生变化，即参数变化也能跳转
+  watch: {
+    '$route' (to,from){
+      this.getData()
+    }
+  },
   filters: {
     filterListType: value => {
       if (value.top === true) {
@@ -100,7 +107,7 @@ export default {
 
 .content {
   max-width: 65%;
-  margin: 15px 305px 15px 76px;
+  margin: 15px 0 15px 76px;
   background: #fff;
 }
 .topic_main {
