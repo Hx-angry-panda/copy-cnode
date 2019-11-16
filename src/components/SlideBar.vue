@@ -37,7 +37,7 @@
         <div class="smallTopBar">作者最近话题</div>
         <div class="message">
           <ul>
-            <li v-for="topic in posts.recent_topics">
+            <li v-for="topic in recentTopics">
               <!-- 此时路由没有发生变化，依旧是article，只是参数发生了变化，在vue中不会跳转 -->
               <router-link
                 :to="{
@@ -57,7 +57,7 @@
         <div class="smallTopBar">作者最近回复</div>
         <div class="message">
           <ul>
-            <li v-for="reply in posts.recent_replies">
+            <li v-for="reply in recentReplies">
               <router-link
                 :to="{
                 name: 'article',
@@ -99,6 +99,18 @@ export default {
   beforeMount: function() {
     this.isLoading = true;
     this.getData();
+  },
+  computed: {
+    recentTopics: function(){
+      if (this.posts.recent_topics.length){
+        return this.posts.recent_topics.slice(0,5)
+      }
+    },
+    recentReplies: function(){
+      if (this.posts.recent_replies.length){
+        return this.posts.recent_replies.slice(0,5)
+      }
+    }
   }
 };
 </script>
@@ -149,7 +161,7 @@ img {
   display: flex;
   align-items: center;
 }
-.person a {
+section a {
   color: grey;
 }
 </style>
