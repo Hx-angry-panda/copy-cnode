@@ -51,18 +51,26 @@
           <!-- 帖子最后回复时间 -->
           <span class="lastReply">{{post.last_reply_at | filterDate}}</span>
         </li>
+        <li>
+          <Pagination></Pagination>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import Pagination from './Pagination'
 export default {
+  name: 'PostList',
   data: function() {
     return {
       isLoading: false,
       posts: [] //页面帖子列表
     };
+  },
+  components: {
+    Pagination
   },
   beforeMount: function() {
     this.isLoading = true;

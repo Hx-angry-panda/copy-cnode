@@ -47,6 +47,7 @@
 
 <script>
 export default {
+  name: "UserInfo",
   data: function() {
     return {
       isLoading: false,

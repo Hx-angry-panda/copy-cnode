@@ -76,6 +76,7 @@
 
 <script>
 export default {
+  name: "SlideBar",
   data: function() {
     return {
       isLoading: false,
