@@ -115,8 +115,10 @@ export default {
   }
 };
 </script>
-
 <style scoped>
+@media (max-width: 979px){
+  div{display: none;}
+}
 * {
   margin: 0;
   padding: 0;

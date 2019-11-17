@@ -93,6 +93,12 @@ li {
   max-width: 1400px;
   margin: 15px auto;
 }
+@media (max-width: 979px) {
+	.userInformation {
+		width: 100%;
+    margin: 15px 0;
+	}
+}
 .userInformation img {
   width: 30px;
   height: 30px;
@@ -110,7 +116,13 @@ li {
   font-size: 12px;
   padding: 10px;
   margin-top: 20px;
-  max-width: 1400px;
+  width: 100%;
+}
+@media (max-width: 979px) {
+	.topBar {
+		width: 100%;
+    margin-top: 15px;
+	}
 }
 .userInformation ul {
   background: #fff;

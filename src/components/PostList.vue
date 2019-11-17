@@ -52,7 +52,7 @@
           <span class="lastReply">{{post.last_reply_at | filterDate}}</span>
         </li>
         <li>
-          <Pagination></Pagination>
+          <Pagination @handle="changePage"></Pagination>
         </li>
       </ul>
     </div>
@@ -66,7 +66,8 @@ export default {
   data: function() {
     return {
       isLoading: false,
-      posts: [] //页面帖子列表
+      posts: [], //页面帖子列表
+      currentPage: 1
     };
   },
   components: {
@@ -80,8 +81,10 @@ export default {
     getData: function() {
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
-          page: 1,
-          limit: 20
+          params: {
+            page: this.currentPage,
+            limit: 20
+          }
         })
         .then(res => {
           this.isLoading = false;
@@ -90,7 +93,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+    changePage: function(value){
+      this.currentPage = value
+      this.getData()
+    },
   },
   filters: {
     filterListType: value => {
@@ -129,6 +136,12 @@ a:hover {
   width: 90%;
   max-width: 1400px;
   margin: 15px auto;
+}
+@media (max-width: 979px) {
+	.main {
+    margin: 0;
+    width: 100%;
+	}
 }
 .loading {
   display: flex;
@@ -188,7 +201,16 @@ a:hover {
 .title {
   font-size: 16px;
   color: #333;
-  margin-left: 5px;
+  margin-left: 10px;
+}
+@media (max-width: 979px) {
+	.title {
+    width: 56vw;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	}
 }
 ul > li:not(:nth-child(1)) {
   position: relative;
@@ -212,5 +234,10 @@ ul > li:nth-child(2) {
   font-size: 11px;
   color: #778087;
   margin-right: 10px;
+}
+@media (max-width: 979px) {
+	.lastReply {
+    display: none;
+	}
 }
 </style>

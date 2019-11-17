@@ -1,6 +1,5 @@
 <template>
-  <div>
-    
+  <div> 
     <div class="content">
       <!-- 帖子内部标题 -->
       <div class="topic_header">
@@ -17,7 +16,7 @@
       </div>
 
       <!-- 帖子正文 -->
-      <div class="topic_main" v-html="posts.content"></div>
+      <div class="topic_main markdown-body" v-html="posts.content"></div>
     </div>
 
     <!-- 帖子回复 -->
@@ -39,13 +38,14 @@
           <span class="createTime">{{reply.create_at | filterDate}}</span>
           <span v-if="reply.ups.length >=1" class="agree">{{reply.ups.length}} ☝</span>
         </section>
-        <p v-html="reply.content"></p>
+        <p v-html="reply.content" class="markdown-body"></p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import markdown from 'github-markdown-css'
 export default {
   name: "Article",
   data: function() {
@@ -103,13 +103,27 @@ export default {
 </script>
 
 <style>
-/* 引入外部的css不能在 style scoped 中 */
-@import url("../assets/markdown-github.css");
-
+.markdown-body {
+		box-sizing: border-box;
+		min-width: 200px;
+		max-width: 980px;
+		margin: 0 auto;
+}
+@media (max-width: 767px) {
+	.markdown-body {
+		padding: 15px;
+	}
+}
 .content {
-  max-width: 65%;
-  margin: 15px 0 15px 76px;
+  width: 65%;
+  margin: 15px 0 15px 5%;
   background: #fff;
+}
+@media (max-width: 979px) {
+	.content {
+		width: 100%;
+    margin: 0;
+	}
 }
 .topic_main {
   border-top: 1px solid #e5e5e5;
@@ -119,17 +133,14 @@ export default {
 .topic_main a {
   text-decoration: underline;
 }
-.markdown-text img {
-  width: 92% !important;
-}
 .topic_header {
-  max-width: 65%;
   padding: 10px;
-  margin: 8px 0;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
 }
 .listType {
+  min-width: 32px;
   font-size: 12px;
   color: #fff;
   padding: 2px 4px;
@@ -155,16 +166,28 @@ export default {
   background: #f6f6f6;
   color: #444;
   font-size: 14px;
-  max-width: 65%;
-  margin: 15px 0 0 76px;
+  width: 65%;
+  margin: 15px 0 0 5%;
   padding: 10px;
 }
+@media (max-width: 979px) {
+	.topBar {
+		width: 100%;
+    margin: 0;
+	}
+}
 .reply {
-  max-width: 65%;
-  margin-left: 76px;
+  width: 65%;
+  margin-left: 5%;
   background: #fff;
   border-top: 1px solid #f0f0f0;
   padding: 10px;
+}
+@media (max-width: 979px) {
+	.reply {
+		width: 100%;
+    margin-left: 0;
+	}
 }
 .reply section {
   display: flex;
@@ -178,10 +201,12 @@ export default {
 .reply p {
   margin: 0 0 0 10px;
   padding-bottom: 10px;
+  
 }
 .reply p a{
   color: #666;
   font-size: 13px;
+  width: 100%;
 }
 .reply .loginName {
   font-size: 12px;
@@ -202,4 +227,5 @@ export default {
   position: absolute;
   right: 20px;
 }
+
 </style>

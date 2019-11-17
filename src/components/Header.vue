@@ -26,11 +26,12 @@ export default {
         list-style: none;
     }
     .header{
+        width: 100%;
         background: #333;
         display: flex;
-        height: 50px;
         justify-content: space-between;
-        padding: 5px 71px;
+        padding: 5px 3%;
+        flex-wrap: wrap;
     }
     img{
         width: 120px;
@@ -57,4 +58,9 @@ export default {
     li{
         padding: 10px 15px;
     }
+    @media (max-width: 979px) {
+	li {
+        padding: 10px 14px;
+	}
+}
 </style>
